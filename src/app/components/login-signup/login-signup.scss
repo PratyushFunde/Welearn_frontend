@@ -1,0 +1,118 @@
+/* From Uiverse.io by mi-series */
+.home_link {
+    display: flex;
+    gap: 0.4rem;
+    justify-content: center;
+    align-items: center;
+    a{
+
+        text-decoration: none;
+        color: white;
+
+    }
+    position: absolute;
+    top: 20px;
+    left: 30px;
+    font-weight: bold;
+    font-size: 1.2rem;
+    color: white;
+    z-index: 2;
+    //   background-color: #264143;
+    margin-left: 0.2rem;
+    padding: 0.4rem 1rem;
+}
+
+.main {
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-image: url("../../../assets/Gemini_Generated_Image_77dkeo77dkeo77dk.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    color: white;
+}
+
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+    backdrop-filter: blur(100px);
+    // border: 2px solid #264143;
+    border-radius: 8px;
+}
+
+.form_area {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    // background-color: #EDDCD9;
+    height: auto;
+    width: auto;
+    // border: 2px solid #264143;
+    border-radius: 20px;
+    padding: 1rem;
+    // box-shadow: 3px 4px 0px 1px #E99F4C;
+}
+
+.title {
+    // color: #264143;
+    font-weight: 900;
+    font-size: 1em;
+    margin-top: 20px;
+}
+
+.sub_title {
+    font-weight: 600;
+    margin: 5px 0;
+}
+
+.form_group {
+    display: flex;
+    flex-direction: column;
+    align-items: baseline;
+    margin: 10px;
+}
+
+.form_style {
+    outline: none;
+    border: 2px solid #264143;
+    // box-shadow: 3px 4px 0px 1px #858585;
+    width: 290px;
+    padding: 12px 10px;
+    border-radius: 4px;
+    font-size: 15px;
+}
+
+.form_style:focus,
+.btn:focus {
+    transform: translateY(4px);
+    // box-shadow: 1px 2px 0px 0px #E99F4C;
+}
+
+.btn {
+    padding: 15px;
+    margin: 25px 0px;
+    width: 290px;
+    font-size: 15px;
+    background: #ed68e475;
+    border-radius: 10px;
+    font-weight: 800;
+    // box-shadow: 3px 3px 0px 0px #E99F4C;
+    color: white;
+}
+
+.btn:hover {
+    opacity: .9;
+}
+
+.link {
+    font-weight: 800;
+    color: #264143;
+    padding: 5px;
+}

@@ -1,0 +1,37 @@
+<!-- From Uiverse.io by mi-series -->
+<div class="main bd1">
+     <div class="home_link">
+          <i class="fa-solid fa-arrow-left"></i><a routerLink="/">Home</a>
+        </div >
+    <div class="container">
+        <div class="form_area">
+            <h4>{{isLogin ? "Sign in to We learn" : "Login to We learn"}}</h4>
+            <p class="title"> {{isLogin ? "SIGN UP" :"Log In"}}</p>
+            <form (ngSubmit)="onFormSubmit()">
+                @if(    isLogin)
+                {
+
+                    <div class="form_group">
+                        <label class="sub_title" for="name">Name</label>
+                        <input placeholder="Enter your full name" class="form_style" type="text" [formControl]="username">
+                    </div>
+                }
+                <div class="form_group">
+                    <label class="sub_title" for="email">Email</label>
+                    <input placeholder="Enter your email" id="email" class="form_style" type="email" [formControl]="email">
+                </div>
+                <div class="form_group">
+                    <label class="sub_title" for="password">Password</label>
+                    <input placeholder="Enter your password" id="password" class="form_style" type="password" [formControl]="password">
+                </div>
+                <div>
+                    <button type="submit" class="btn">SIGN UP</button>
+                    <p (click)="modeSwitch()">{{isLogin ? "Already have an account ! Login Here" :"Don't have an account ! Signup here"}}</p>
+                </div><a class="link" href="">
+
+                </a>
+            </form>
+        </div><a class="link" href="">
+        </a>
+    </div>
+</div>
