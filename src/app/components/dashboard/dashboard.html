@@ -1,15 +1,14 @@
 <div class="main bd1">
-
-    <div class="left bd2">
-
-        <app-left-bar/>
-
+    <!-- Hamburger Icon -->
+    <i class="fas fa-bars menu-icon" (click)="toggleSidebar()" *ngIf="!sidebarVisible"></i>
+    <i class="fa-solid fa-xmark menu-icon" (click)="toggleSidebar()" *ngIf="sidebarVisible"></i>
+    <!-- Sidebar Container -->
+    <div class="left bd2" [class.show]="sidebarVisible">
+        <app-left-bar />
     </div>
 
+    <!-- Main Content Area -->
     <div class="hero bd4">
-
-        <app-hero/>
-        
+        <app-hero />
     </div>
-
 </div>

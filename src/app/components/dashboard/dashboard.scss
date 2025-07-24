@@ -1,14 +1,50 @@
 .main {
-    height: 100vh;
-    width: 100vw;
-    background: #181515;
-    display: flex;
+  height: 100vh;
+  width: 100vw;
+  background: #181515;
+  display: flex;
+  overflow-x: hidden;
+  position: relative;
 }
 
-.left{
-    width: 20%;
+.left {
+  width: 20%;
+  height: 100vh;
+  transition: left 0.3s ease-in-out;
+
+  @media (max-width: 768px) {
+    position: absolute;
+    top: 0;
+    left: -100%; // hidden by default on small screens
+    width: 40%;   // sidebar takes 70% width on small devices
+    z-index: 1000;
+    background-color: #1f1f2e;
+  }
 }
 
-.hero{
-    flex: 1;
+.left.show {
+  @media (max-width: 768px) {
+    left: 0; // slide in
+  }
+}
+
+.hero {
+  flex: 1;
+  width: 100%;
+  overflow-y: auto;
+}
+
+.menu-icon {
+  display: none;
+
+  @media (max-width: 768px) {
+    display: block;
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    font-size: 2rem;
+    color: white;
+    z-index: 1100;
+    cursor: pointer;
+  }
 }
