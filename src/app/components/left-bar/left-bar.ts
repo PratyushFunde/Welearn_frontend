@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
+import { Auth } from '../../services/auth';
 
 @Component({
   selector: 'app-left-bar',
@@ -11,7 +12,8 @@ export class LeftBar {
 
   userName: string = "";
 
- 
+  private authService = inject(Auth);
+
 
   ngOnInit() {
     const userString = sessionStorage.getItem('user');
@@ -20,4 +22,9 @@ export class LeftBar {
       this.userName = user.name;
     }
   }
+
+  onLogoutClick = () => {
+    this.authService.logout();
+  }
+
 }

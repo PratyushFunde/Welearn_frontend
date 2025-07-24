@@ -17,16 +17,16 @@ export const routes: Routes = [
         path: 'dashboard',
         canActivate: [authGuard],
         component: Dashboard,
-        children:[
+        children: [
             {
-                path:'',
-                component:Hero,
-                children:[
-                    { path:'practice',component:Practice },
-                    {path:'challenge',component:CodingChallenges},
-                    {path:'analytics',component:Analytics},
-                    {path:'guide',component:InterviewGuide},
-                    {path:'skills',component:Skills},
+                path: '',
+                component: Hero,
+                children: [
+                    { path: 'practice', component: Practice },
+                    { path: 'challenge', component: CodingChallenges },
+                    { path: 'analytics', component: Analytics },
+                    { path: 'guide', component: InterviewGuide },
+                    { path: 'skills', component: Skills },
                     { path: '', redirectTo: 'dashboard', pathMatch: 'full' }
                 ]
             }
