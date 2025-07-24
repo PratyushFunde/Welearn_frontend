@@ -5,17 +5,20 @@ import { Router, RouterLink } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { LoginSignupService } from '../../services/login-signup-service';
 import { VerifyOtp } from "../verify-otp/verify-otp";
+import { NgIf } from '@angular/common';
+import { Spinner } from "../spinner/spinner";
 
 
 @Component({
   selector: 'app-login-signup',
-  imports: [ReactiveFormsModule, FormsModule, FontAwesomeModule, RouterLink, VerifyOtp],
+  imports: [ReactiveFormsModule, FormsModule, FontAwesomeModule, RouterLink, VerifyOtp, NgIf, Spinner],
   templateUrl: './login-signup.html',
   styleUrl: './login-signup.scss'
 })
 export class LoginSignup implements OnInit {
   isLogin: boolean = true;
   showOTP:boolean=false;
+  loginLoading:boolean=false;
 
   private router=inject(Router);
   loginSignupService = inject(LoginSignupService);
@@ -28,6 +31,10 @@ export class LoginSignup implements OnInit {
   ngOnInit(){
     this.loginSignupService.showOtp$.subscribe((value)=>{
       this.showOTP=value;
+    })
+
+    this.loginSignupService.loginLoading$.subscribe((value)=>{
+      this.loginLoading=value;
     })
   }
 

@@ -25,7 +25,17 @@
                     <input placeholder="Enter your password" id="password" class="form_style" type="password" [formControl]="password">
                 </div>
                 <div>
-                    <button type="submit" class="btn cursor_pointer">{{!isLogin ? "Sign Up" :"Login"}}</button>
+                    <button [disabled]="loginLoading" type="submit" class="btn cursor_pointer">
+
+                        <ng-container *ngIf="!loginLoading">
+                            {{!isLogin ? "Sign Up" :"Login"}}
+
+                        </ng-container>
+                        <ng-container *ngIf="loginLoading">
+                            <app-spinner/>
+                        </ng-container>
+                    </button>
+
                     <p class="cursor_pointer" (click)="modeSwitch()">{{!isLogin ? "Already have an account ! Login Here" :"Don't have an account ! Signup here"}}</p>
                 </div><a class="link" href="">
 
