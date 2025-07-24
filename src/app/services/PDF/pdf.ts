@@ -5,5 +5,5 @@ import * as pdfjsLib from "pdfjs-dist";
   providedIn: 'root'
 })
 export class Pdf {
-  
+  //Pdf extraction functions here
 }
