@@ -8,5 +8,11 @@ import { Navbar } from "../navbar/navbar";
   styleUrl: './main.scss'
 })
 export class Main {
-  
+
+  showNavbar: boolean = false;
+
+  toggleNavbar() {
+    this.showNavbar = !this.showNavbar;
+  }
+
 }

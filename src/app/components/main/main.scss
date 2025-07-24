@@ -28,15 +28,23 @@
             padding: 1rem;
             justify-content: center;
             align-items: center;
+            animation: slideUp 1s ease-out forwards;
+            ;
 
             .letslearn {
                 font-size: 4.6rem;
                 font-weight: bold;
-
+                opacity: 0;
+                transform: translateY(60px);
+                animation: slideUp 1s ease-out forwards;
             }
 
             .welearn {
                 font-size: 6.6rem;
+                opacity: 0;
+                transform: translateY(60px);
+                animation: slideUp 1s ease-out forwards;
+                animation-delay: 0.5s; // Starts after letslearn
             }
 
         }
@@ -46,12 +54,112 @@
 }
 
 .bg_video {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  min-width: 100%;
-  min-height: 100%;
-  transform: translate(-50%, -50%);
-  object-fit: cover;
-  z-index: -1; /* 👈 behind content */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    min-width: 100%;
+    min-height: 100%;
+    transform: translate(-50%, -50%);
+    object-fit: cover;
+    z-index: -1;
+    /* 👈 behind content */
 }
+
+@keyframes slideUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.menu-btn {
+  display: none;
+  font-size: 1.5rem;
+  background: none;
+  border: none;
+  color: #fff;
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  z-index: 1000;
+}
+
+
+/* Hide checkbox */
+.nav-toggle {
+  display: none;
+}
+
+/* Style menu icon (button) */
+.menu-icon {
+  display: none;
+  font-size: 1.8rem;
+  cursor: pointer;
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  z-index: 999;
+}
+
+/* Default navbar display for large screens */
+.navbar {
+  display: block;
+}
+
+/* Responsive behavior */
+// @media (max-width: 768px) {
+//   /* Show menu icon on small screens */
+//   .menu-icon {
+//     display: block;
+//   }
+
+//   /* Hide navbar by default */
+//   .navbar {
+//     display: none;
+//     position: absolute;
+//     // top: 3.5rem; /* adjust depending on menu icon size */
+//     width: 100%;
+//     // background-color: #fff;
+//     z-index: 998;
+//   }
+
+//   /* Show navbar when checkbox is checked */
+//   .nav-toggle:checked + .menu-icon + .navbar {
+//     display: block;
+//   }
+// }
+
+@keyframes fadeSlideDown {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 768px) {
+  .menu-icon {
+    display: block;
+  }
+
+  .navbar {
+    display: none;
+    position: absolute;
+    // top: 3.5rem;
+    width: 100%;
+    // background-color: rgba(0, 0, 0, 0.85); // optional dark bg for contrast
+    z-index: 998;
+    // opacity: 0;
+    transform: translateY(-20px);
+    transition: all 0.3s ease, transform 0.3s ease;
+  }
+
+  .nav-toggle:checked + .menu-icon + .navbar {
+    display: block;
+    animation: fadeSlideDown 0.3s ease forwards;
+  }
+}
+
