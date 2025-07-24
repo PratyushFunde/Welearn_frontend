@@ -2,13 +2,14 @@ import { Injectable } from '@angular/core';
 import { User } from '../models/user';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LoginSignupService {
 
-  private baseURL="http://localhost:8000/api/user"
+  private baseURL=`${environment.apiUrl}/user`
 
   userEmail:string='';
 
