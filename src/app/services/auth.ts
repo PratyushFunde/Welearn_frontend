@@ -5,17 +5,18 @@ import { Injectable } from '@angular/core';
 })
 export class Auth {
 
-  isLoggedIn():boolean{
+  isLoggedIn(): boolean {
     return !!sessionStorage.getItem('token')
   }
 
-  getToken():string | null{
+  getToken(): string | null {
     return sessionStorage.getItem('token');
   }
 
-  logout(){
+  logout() {
+    console.log("Token removed")
     sessionStorage.removeItem('token');
     sessionStorage.removeItem('user');
   }
-  
+
 }
