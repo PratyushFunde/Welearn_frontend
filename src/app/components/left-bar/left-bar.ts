@@ -1,14 +1,17 @@
 import { Component } from '@angular/core';
+import { RouterLink, RouterLinkActive } from '@angular/router';
 
 @Component({
   selector: 'app-left-bar',
-  imports: [],
+  imports: [RouterLink, RouterLinkActive],
   templateUrl: './left-bar.html',
   styleUrl: './left-bar.scss'
 })
 export class LeftBar {
 
-  userName: string = ""
+  userName: string = "";
+
+ 
 
   ngOnInit() {
     const userString = sessionStorage.getItem('user');

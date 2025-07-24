@@ -1,0 +1,26 @@
+<main class="container" role="main" aria-label="Interview preparation bd2">
+  <div class="heading bd1">
+    <h1>Prepare for Your Next Interview</h1>
+    <p class="subtitle">Upload your resume and customize your practice experience</p>
+  </div>
+
+  <div class="buttons bd2">
+    <!-- Upload Resume Button -->
+    <button class="btn-primary" type="button" aria-label="Upload Resume" (click)="triggerFileSelect()">
+     <i class="fa-solid fa-file-arrow-up"></i>
+      Upload Resume
+    </button>
+
+    <!-- Hidden file input -->
+    <input 
+      type="file" 
+      #fileInput 
+      accept=".pdf,.doc,.docx" 
+      (change)="handleFileUpload($event)" 
+      style="display: none;" 
+    />
+
+    <!-- Start Practice Button -->
+    
+  </div>
+</main>
