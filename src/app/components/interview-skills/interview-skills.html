@@ -1,0 +1,26 @@
+@if(profile)
+{
+
+  <div class="skills-container" >
+    <div class="header-row">
+      <strong class="title">Skills</strong>
+      <button class="add-skill-button" aria-label="Add Skill" (click)="addSkill()">+ Add Skill</button>
+    </div>
+    <input
+    type="search"
+    class="skill-search-input"
+    placeholder="Search or add skills..."
+    aria-label="Search or add skills"
+    [(ngModel)]="newSkill"
+    (keyup.enter)="addSkill()"
+    />
+    <div class="selected-skills">
+      <span *ngFor="let item of profile?.skills" class="skill-item blue">{{item}} <button class="remove-btn" aria-label="Remove React skill" (click)="removeSkill(item)">×</button></span>
+    </div>
+    <hr>
+    <div class="experience">
+      <h4 style="margin-bottom: 0.4rem;">Experience : </h4>
+      <p style="margin-top: 0.2rem;" *ngFor="let item of profile?.experiences">{{item}}</p>
+    </div>
+  </div>
+}

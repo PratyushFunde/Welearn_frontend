@@ -3,17 +3,16 @@
     <h2 class="username">{{userName}}</h2>
   </div>
   <nav class="nav-menu">
-    <a routerLink="practice" routerLinkActive="nav_active"
-      class="nav-item">Practice</a>
-    <a routerLink="analytics" routerLinkActive="nav_active"
-      class="nav-item">Analytics</a>
-    <a routerLink="guide" routerLinkActive="nav_active"
-      class="nav-item">Interview Guide</a>
-    <a routerLink="skills" routerLinkActive="nav_active"
-      class="nav-item">Skills</a>
+    <a routerLink="practice" routerLinkActive="nav_active" class="nav-item">Practice</a>
+    <a routerLink="analytics" routerLinkActive="nav_active" class="nav-item">Analytics</a>
+    <a routerLink="guide" routerLinkActive="nav_active" class="nav-item">Interview Guide</a>
+    <a routerLink="skills" routerLinkActive="nav_active" class="nav-item">Skills</a>
   </nav>
-  <div class="logout-button-container bd1">
-    <button class="logout-btn cursor_pointer"
-      (click)="onLogoutClick()">Logout</button>
+  <div class="logout-button-container bd1" (mouseenter)="showLogout = true" (mouseleave)="showLogout = false">
+    <i class="fa-solid fa-gear" *ngIf="!showLogout"></i>
+    <button *ngIf="showLogout" class="logout-btn cursor_pointer" (click)="onLogoutClick()">
+      <span *ngIf="showLogout" class="logout-text">Logout</span>
+    </button>
   </div>
+
 </div>

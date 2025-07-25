@@ -6,10 +6,13 @@
 
   <div class="buttons bd2">
     <!-- Upload Resume Button -->
-    <button class="btn-primary" type="button" aria-label="Upload Resume" (click)="triggerFileSelect()">
+    <app-spinner *ngIf="isLoading"/>
+    <button *ngIf="!isLoading" class="btn-primary" type="button" aria-label="Upload Resume" (click)="triggerFileSelect()">
      <i class="fa-solid fa-file-arrow-up"></i>
       Upload Resume
-    </button>
+    </button> 
+
+    <button *ngIf="!isLoading" [disabled]="!profile?.skills?.length" class="start-interview-btn">Start Interview</button>
 
     <!-- Hidden file input -->
     <input 
