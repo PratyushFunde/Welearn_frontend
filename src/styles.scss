@@ -3,13 +3,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
 
 :root {
-  --primary-color: #2563eb;
+  --primary-color: #10182a;
   /* Dark Blue */
-  --text-primary: #ffffff;
+  --text-primary: #E0E0E0;
   /* White text */
-  --text-secondary: #a0aec0;
+  --text-secondary: #B0B0B0;
   /* Muted gray text */
-  --bg-dark: #1a202c;
+  --bg-dark: #121212 ;
+  --accent-dark:#444444;
   /* Very dark background */
   --border-radius: 0.5rem;
 }
