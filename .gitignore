@@ -44,3 +44,4 @@ Thumbs.db
 # Ignore Utilty Css file
 
 src/utility.scss
+.vercel

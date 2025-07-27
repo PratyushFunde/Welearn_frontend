@@ -13,15 +13,14 @@ export class Pdf {
 
   private http = inject(HttpClient);
 
-  private isPdfResponseLoadingSubject=new BehaviorSubject<boolean>(false);
-  public isPdfLoading$=this.isPdfResponseLoadingSubject.asObservable();
+  private isPdfResponseLoadingSubject = new BehaviorSubject<boolean>(false);
+  public isPdfLoading$ = this.isPdfResponseLoadingSubject.asObservable();
   // profile!: Profile;
 
-  private profileSubject=new BehaviorSubject<Profile|null>(null)
-  public profile$=this.profileSubject.asObservable();
+  private profileSubject = new BehaviorSubject<Profile | null>(null)
+  public profile$ = this.profileSubject.asObservable();
   //Pdf extraction functions here
   //Also add Model call in this service
-
 
   uploadPDF = (file: File) => {
     const formData = new FormData();
@@ -43,11 +42,10 @@ export class Pdf {
           }
         },
         error: (err) => {
-          if(err.status==429)
-          {
+          if (err.status == 429) {
             alert('Rate limit exceeded . Please wait few seconds and try again later !');
           }
-          else{
+          else {
             alert('Unexpected error occurred. Please try again later.');
           }
           console.error('Error uploading PDF:', err);
@@ -57,6 +55,14 @@ export class Pdf {
 
     )
 
+  }
+
+  setProfile(profile: Profile) {
+    this.profileSubject.next(profile);
+  }
+
+  get currentProfile(): Profile | null {
+    return this.profileSubject.value;
   }
 
 

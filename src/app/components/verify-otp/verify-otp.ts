@@ -1,7 +1,8 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { FormsModule, NgModel } from '@angular/forms';
 import { LoginSignupService } from '../../services/login-signup-service';
 import { Spinner } from "../spinner/spinner";
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-verify-otp',
@@ -9,19 +10,27 @@ import { Spinner } from "../spinner/spinner";
   templateUrl: './verify-otp.html',
   styleUrl: './verify-otp.scss'
 })
-export class VerifyOtp implements OnInit {
+export class VerifyOtp implements OnInit, OnDestroy {
   otp: string[] = ['', '', '', '', '', ''];
   loading: boolean = false;
 
   successMessage: string = "";
   errorMessage:string=""
+  private destroy$ = new Subject<void>();
 
   private loginSignupService = inject(LoginSignupService);
 
   ngOnInit(): void {
-    this.loginSignupService.verifyLoading$.subscribe((value) => {
-      this.loading = value;
-    })
+    this.loginSignupService.verifyLoading$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((value) => {
+        this.loading = value;
+      });
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   onSubmit() {
@@ -29,8 +38,9 @@ export class VerifyOtp implements OnInit {
     console.log('Entered OTP:', fullOtp);
 
     this.loginSignupService.setVerifyLoading(true);
-    this.loginSignupService.verifyOtp(fullOtp).subscribe(
-      {
+    this.loginSignupService.verifyOtp(fullOtp)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
         next: (res) => {
           console.log("Verified Successfully")
           this.loginSignupService.setVerifyLoading(false);
@@ -41,8 +51,7 @@ export class VerifyOtp implements OnInit {
           this.loginSignupService.setVerifyLoading(false);
           this.errorMessage = err.error?.message || 'OTP verification failed!';
         }
-      }
-    );
+      });
 
 
   }

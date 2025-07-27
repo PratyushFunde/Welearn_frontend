@@ -1,12 +1,13 @@
 /* Card Container */
 .selection-card {
-    background-color: white;
+    background-color: var(--primary-color);
     border-radius: 10px;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
     padding: 30px;
     width: 100%;
     max-width: 500px;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    color: white;
 }
 
 .selection-card:hover {
@@ -16,7 +17,7 @@
 
 /* Title */
 .card-title {
-    color: #2c3e50;
+    color: white;
     text-align: center;
     margin-bottom: 25px;
     font-size: 24px;
@@ -32,7 +33,7 @@
 .form-label {
     display: block;
     margin-bottom: 8px;
-    color: #34495e;
+    color: white;
     font-weight: 500;
     font-size: 16px;
 }

@@ -1,5 +1,5 @@
 
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -7,6 +7,7 @@ import { LoginSignupService } from '../../services/login-signup-service';
 import { VerifyOtp } from "../verify-otp/verify-otp";
 import { NgIf } from '@angular/common';
 import { Spinner } from "../spinner/spinner";
+import { Subject, takeUntil } from 'rxjs';
 
 
 @Component({
@@ -15,13 +16,14 @@ import { Spinner } from "../spinner/spinner";
   templateUrl: './login-signup.html',
   styleUrl: './login-signup.scss'
 })
-export class LoginSignup implements OnInit {
+export class LoginSignup implements OnInit, OnDestroy {
   isLogin: boolean = true;
   showOTP:boolean=false;
   loginLoading:boolean=false;
 
   private router=inject(Router);
   loginSignupService = inject(LoginSignupService);
+  private destroy$ = new Subject<void>();
 
   username = new FormControl('');
   email = new FormControl('');
@@ -29,13 +31,22 @@ export class LoginSignup implements OnInit {
 
 
   ngOnInit(){
-    this.loginSignupService.showOtp$.subscribe((value)=>{
-      this.showOTP=value;
-    })
+    this.loginSignupService.showOtp$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((value)=>{
+        this.showOTP=value;
+      });
 
-    this.loginSignupService.loginLoading$.subscribe((value)=>{
-      this.loginLoading=value;
-    })
+    this.loginSignupService.loginLoading$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((value)=>{
+        this.loginLoading=value;
+      });
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   modeSwitch() {
@@ -48,21 +59,22 @@ export class LoginSignup implements OnInit {
 
     if (this.isLogin && this.email.value && this.password.value) {
 
-      this.loginSignupService.onLogin(this.email.value,this.password.value).subscribe({
+      this.loginSignupService.onLogin(this.email.value,this.password.value)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe({
+          next:(res:any)=>{
+            sessionStorage.setItem('token',res.token);
 
-        next:(res:any)=>{
-          sessionStorage.setItem('token',res.token);
+            sessionStorage.setItem('user',JSON.stringify(res.user));
+            this.router.navigate(['/dashboard']);
+          },
 
-          sessionStorage.setItem('user',JSON.stringify(res.user));
-          this.router.navigate(['/dashboard']);
-        },
+          error:(error)=>{
+            console.error('Login error:', error);
+            alert("Enter correct email and password !")
+          }
 
-        error:(error)=>{
-          console.error('Login error:', error);
-          alert("Enter correct email and password !")
-        }
-
-      })
+        });
 
 
     }
@@ -75,15 +87,17 @@ export class LoginSignup implements OnInit {
         password: this.password.value || ''
       }
 
-      this.loginSignupService.onSignup(userData).subscribe({
-        next:(res)=>
-          {
-            console.log("Signup Successful !");
-            this.loginSignupService.setShowOtp(true);
-            this.loginSignupService.userEmail=userData.email;
-          },
-        error:(err)=>console.log("Some error occured !")
-      });
+      this.loginSignupService.onSignup(userData)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe({
+          next:(res)=>
+            {
+              console.log("Signup Successful !");
+              this.loginSignupService.setShowOtp(true);
+              this.loginSignupService.userEmail=userData.email;
+            },
+          error:(err)=>console.log("Some error occured !")
+        });
 
     }
   }

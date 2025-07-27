@@ -1,33 +1,44 @@
-import { Component, ElementRef, inject, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, inject, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { Pdf } from '../../services/PDF/pdf.service';
 import { Spinner } from "../spinner/spinner";
 import { NgIf } from '@angular/common';
 import { Profile } from '../../interface/profile.interface';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-start-preparation',
-  imports: [Spinner,NgIf],
+  imports: [Spinner, NgIf],
   templateUrl: './start-preparation.html',
   styleUrl: './start-preparation.scss'
 })
-export class StartPreparation {
+export class StartPreparation implements OnInit, OnDestroy {
   @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
+  @Output() message = new EventEmitter<boolean>();
 
-  isLoading:boolean=false;
-  
-  profile:Profile|null=null;
+  isLoading: boolean = false;
 
-  private pdfService=inject(Pdf);
+  profile: Profile | null = null;
+  private destroy$ = new Subject<void>();
 
-  ngOnInit(){
-    this.pdfService.isPdfLoading$.subscribe((value)=>{
-      this.isLoading=value;
-    })
+  private pdfService = inject(Pdf);
 
-    this.pdfService.profile$.subscribe((value)=>{
-      this.profile=value;
-    })
-   
+  ngOnInit() {
+    this.pdfService.isPdfLoading$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((value) => {
+        this.isLoading = value;
+      });
+
+    this.pdfService.profile$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((value) => {
+        this.profile = value;
+      });
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   triggerFileSelect(): void {
@@ -43,6 +54,11 @@ export class StartPreparation {
       this.pdfService.uploadPDF(file);
 
     }
-    input.value='';
+    input.value = '';
   }
+
+  onStartClick() {
+    this.message.emit(true);
+  }
+
 }

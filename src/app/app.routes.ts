@@ -9,6 +9,7 @@ import { CodingChallenges } from './components/coding-challenges/coding-challeng
 import { Analytics } from './components/analytics/analytics';
 import { InterviewGuide } from './components/interview-guide/interview-guide';
 import { Skills } from './components/skills/skills';
+import { InterviewScreen } from './components/interview-screen/interview-screen';
 
 export const routes: Routes = [
     { path: '', component: Main },
@@ -31,7 +32,8 @@ export const routes: Routes = [
                 ]
             }
         ]
-    }
+    },
+    { path: 'interview', component: InterviewScreen }
 ];
 
 
