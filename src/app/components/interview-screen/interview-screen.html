@@ -1,13 +1,26 @@
-<div class="main bd1">
+<div class="main bd1" #main>
+    <button *ngIf="!isFullscreen" (click)="enterFullscreen()">Enter Fullscreen</button>
+    <div class="header bd2">
+
+        <button class="end-interview-btn" (click)="endInterview()">End Interview</button>
+    </div>
     <div class="screens bd2">
         <div class="screen ai bd4">
-
+            <div class="spinner">
+                <div class="spinner1"></div>
+            </div>
+            <h4>AI</h4>
         </div>
-        <div class="screen candidate bd4">
-            Candidate
+        <div class="screen candidate bd4"> 
+            <div class="spinner">
+                <div class="spinner1"></div>
+            </div>
+            <h4>Candidate</h4>
         </div>
     </div>
     <div class="footer bd6">
-        Footer
+        <button class="start-speaking-btn">
+            <i class="fa-solid fa-microphone-lines"></i>
+            Start Speaking</button>
     </div>
 </div>
