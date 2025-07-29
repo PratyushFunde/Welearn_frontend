@@ -34,6 +34,9 @@
 .nav-list li {
     margin: 0 15px;
     /* Margin between items */
+    a:hover{
+        color: var(--hover-color);
+    }
 }
 
 .nav-list a {
@@ -43,7 +46,10 @@
     /* Remove underline */
     padding: 10px;
     /* Padding for clickable area */
+    
 }
+
+
 
 /* Responsive Styles */
 @media (max-width: 768px) {
@@ -53,6 +59,8 @@
         align-items: center;
         /* Center items */
     }
+
+
 
     .nav-list li {
         margin: 5px 0;

@@ -18,10 +18,10 @@ import { Subject, takeUntil } from 'rxjs';
 })
 export class LoginSignup implements OnInit, OnDestroy {
   isLogin: boolean = true;
-  showOTP:boolean=false;
-  loginLoading:boolean=false;
+  showOTP: boolean = false;
+  loginLoading: boolean = false;
 
-  private router=inject(Router);
+  private router = inject(Router);
   loginSignupService = inject(LoginSignupService);
   private destroy$ = new Subject<void>();
 
@@ -30,17 +30,17 @@ export class LoginSignup implements OnInit, OnDestroy {
   password = new FormControl('');
 
 
-  ngOnInit(){
+  ngOnInit() {
     this.loginSignupService.showOtp$
       .pipe(takeUntil(this.destroy$))
-      .subscribe((value)=>{
-        this.showOTP=value;
+      .subscribe((value) => {
+        this.showOTP = value;
       });
 
     this.loginSignupService.loginLoading$
       .pipe(takeUntil(this.destroy$))
-      .subscribe((value)=>{
-        this.loginLoading=value;
+      .subscribe((value) => {
+        this.loginLoading = value;
       });
   }
 
@@ -57,19 +57,28 @@ export class LoginSignup implements OnInit, OnDestroy {
     // console.log(this.username.value, this.email.value, this.password.value);
     // console.log(this.isLogin);
 
+    if (this.email.value == '' || this.password.value == '') {
+      alert('Email or password cannot be empty');
+      return;
+    }
+
+    if (!this.email.value || !this.isValidEmail(this.email.value)) {
+      alert('Enter valid email !')
+    }
+
     if (this.isLogin && this.email.value && this.password.value) {
 
-      this.loginSignupService.onLogin(this.email.value,this.password.value)
+      this.loginSignupService.onLogin(this.email.value, this.password.value)
         .pipe(takeUntil(this.destroy$))
         .subscribe({
-          next:(res:any)=>{
-            sessionStorage.setItem('token',res.token);
+          next: (res: any) => {
+            sessionStorage.setItem('token', res.token);
 
-            sessionStorage.setItem('user',JSON.stringify(res.user));
+            sessionStorage.setItem('user', JSON.stringify(res.user));
             this.router.navigate(['/dashboard']);
           },
 
-          error:(error)=>{
+          error: (error) => {
             console.error('Login error:', error);
             alert("Enter correct email and password !")
           }
@@ -79,7 +88,11 @@ export class LoginSignup implements OnInit, OnDestroy {
 
     }
 
-    if (!this.isLogin) {
+    if (!this.isLogin && this.password && this.email && this.username) {
+      if (this.password?.value && this.password.value?.length < 6) {
+        alert('Password must be longer than or equal to 6 characters');
+        return;
+      }
       let userData =
       {
         name: this.username.value || '',
@@ -90,17 +103,37 @@ export class LoginSignup implements OnInit, OnDestroy {
       this.loginSignupService.onSignup(userData)
         .pipe(takeUntil(this.destroy$))
         .subscribe({
-          next:(res)=>
-            {
-              console.log("Signup Successful !");
-              this.loginSignupService.setShowOtp(true);
-              this.loginSignupService.userEmail=userData.email;
-            },
-          error:(err)=>console.log("Some error occured !")
+          next: (res) => {
+            console.log("Signup Successful !");
+            this.loginSignupService.setShowOtp(true);
+            this.loginSignupService.userEmail = userData.email;
+          },
+          error: (err) => {
+            console.log("Some error occured !")
+            if (err.status === 400) {
+              alert('Bad request: Please check your input fields.');
+            }
+            else if (err.status === 409) {
+              alert('User already exists !')
+            }
+            else if (err.status === 500) {
+              alert('Server error. Please try again later.');
+            }
+            else {
+              alert('An unknown error occurred!');
+            }
+          }
         });
 
     }
+
+    
   }
 
+
+  isValidEmail(email: string): boolean {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  }
 
 }
