@@ -1,45 +1,71 @@
 * {
-    box-sizing: border-box; /* Ensure padding does not affect width */
+    box-sizing: border-box;
+    /* Ensure padding does not affect width */
 }
 
 
 .navbar {
-    padding: 10px 20px; /* Padding around the navbar */
+    padding: 10px 20px;
+    /* Padding around the navbar */
     backdrop-filter: blur(10px);
     border-radius: 1rem;
 }
 
 .container {
-    max-width: 1200px; /* Max width of navbar */
-    margin: auto; /* Centering */
+    max-width: 1200px;
+    /* Max width of navbar */
+    margin: auto;
+    /* Centering */
 }
 
 .nav-list {
-    list-style: none; /* Remove bullet points */
-    padding: 0; /* Remove padding */
-    display: flex; /* Flexbox layout */
-    justify-content: space-around; /* Spacing between items */
-    flex-wrap: wrap; /* Allow wrapping */
+    list-style: none;
+    /* Remove bullet points */
+    padding: 0;
+    /* Remove padding */
+    display: flex;
+    /* Flexbox layout */
+    justify-content: space-around;
+    /* Spacing between items */
+    flex-wrap: wrap;
+    /* Allow wrapping */
 }
 
 .nav-list li {
-    margin: 0 15px; /* Margin between items */
+    margin: 0 15px;
+    /* Margin between items */
 }
 
 .nav-list a {
-    color: white; /* Text color */
-    text-decoration: none; /* Remove underline */
-    padding: 10px; /* Padding for clickable area */
+    color: white;
+    /* Text color */
+    text-decoration: none;
+    /* Remove underline */
+    padding: 10px;
+    /* Padding for clickable area */
 }
 
 /* Responsive Styles */
 @media (max-width: 768px) {
     .nav-list {
-        flex-direction: column; /* Stack items vertically on smaller screens */
-        align-items: center; /* Center items */
+        flex-direction: column;
+        /* Stack items vertically on smaller screens */
+        align-items: center;
+        /* Center items */
     }
 
     .nav-list li {
-        margin: 5px 0; /* Vertical spacing */
+        margin: 5px 0;
+        /* Vertical spacing */
+    }
+
+    .navbar {
+        padding: 10px 20px;
+        /* Padding around the navbar */
+        backdrop-filter: blur(10px);
+        border-radius: 1rem;
     }
 }
+
+
+@media(max-width:500px) {}
