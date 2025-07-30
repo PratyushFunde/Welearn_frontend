@@ -21,7 +21,7 @@ export class User {
 
   constructor() {
     // Move subscription here directly, not in ngonInit
-    th9is.pdfService.profile$.subscribe((value) => {
+    this.pdfService.profile$.subscribe((value) => {
       this.profile = value;
     });
   }
