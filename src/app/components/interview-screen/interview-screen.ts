@@ -1,6 +1,7 @@
 import { NgIf } from '@angular/common';
 import { Component, ElementRef, ViewChild } from '@angular/core';
 
+
 @Component({
   selector: 'app-interview-screen',
   standalone: true,
