@@ -1,4 +1,6 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable, NgZone } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
+import { User } from '../user/user';
 
 @Injectable({
   providedIn: 'root'
@@ -6,37 +8,113 @@ import { Injectable } from '@angular/core';
 export class Speak {
   private voices: SpeechSynthesisVoice[] = [];
 
-  constructor() {
+  private finalTranscript = '';
+
+  recognition: any;
+  private listeningSubject = new BehaviorSubject<boolean>(false);
+  isListening$ = this.listeningSubject.asObservable();  // Expose as observable
+
+  private speakingSubject=new BehaviorSubject<boolean>(false);
+  isSpeaking$=this.speakingSubject.asObservable();
+
+  private userService=inject(User);
+
+  constructor(private zone: NgZone) {
     speechSynthesis.onvoiceschanged = () => {
       this.voices = speechSynthesis.getVoices();
     };
-
+    const { webkitSpeechRecognition }: any = window as any;
+    this.recognition = new webkitSpeechRecognition();  // Chrome only
+    this.recognition.continuous = true;
+    this.recognition.interimResults = true;
+    this.recognition.lang = 'en-US';
     this.voices = speechSynthesis.getVoices(); // Load immediately if available
   }
 
   speak(message: string, lang: string = 'en-US') {
-    const utterance = new SpeechSynthesisUtterance(message);
-    utterance.lang = lang;
-    utterance.pitch = 0.6;
-    utterance.rate = 1.1;
+  // Cancel any ongoing speech first
+  speechSynthesis.cancel();
+  
+  this.zone.run(() => {
+    this.speakingSubject.next(true);
+  });
 
-    const preferredVoices = [
-      'Microsoft Heera - English (India)',
-    ];
+  const utterance = new SpeechSynthesisUtterance(message);
+  utterance.lang = lang;
+  utterance.pitch = 1;
+  utterance.rate = 1;
 
-    // Try to pick the first matching voice
-    const selectedVoice = this.voices.find(v => preferredVoices.includes(v.name));
+  const preferredVoices = [
+    'Google US English',
+    'Microsoft Aria Online (Natural)',
+    'Microsoft Heera - English (India)',
+    'Google UK English Male'
+  ];
 
-    if (selectedVoice) {
-      utterance.voice = selectedVoice;
-    } else { 
-      console.warn('Preferred female voice not found. Using default voice.');
+  const selectedVoice = this.voices.find(v => preferredVoices.includes(v.name));
+  if (selectedVoice) {
+    utterance.voice = selectedVoice;
+  }
+
+  utterance.onend = () => {
+    this.zone.run(() => {
+      this.speakingSubject.next(false);
+    });
+  };
+
+  utterance.onerror = (event) => {
+    console.error('Speech synthesis error:', event);
+    this.zone.run(() => {
+      this.speakingSubject.next(false);
+    });
+  };
+
+  speechSynthesis.speak(utterance);
+}
+
+
+  start(callback: (text: string) => void) {
+    if (this.listeningSubject.value) return;
+
+    this.listeningSubject.next(true);
+    this.finalTranscript = '';
+
+    this.recognition.onresult = (event: any) => {
+      let interimTranscript = '';
+
+      for (let i = event.resultIndex; i < event.results.length; ++i) {
+        const result = event.results[i];
+        if (result.isFinal) {
+          this.finalTranscript += result[0].transcript;
+        } else {
+          interimTranscript += result[0].transcript;
+        }
+      }
+      };
+
+      this.recognition.onerror = (event: any) => {
+        console.error('Speech recognition error:', event);
+      };
+
+      this.recognition.onend = () => {
+        this.listeningSubject.next(false);
+
+        // ✅ When recognition stops, log final result
+        console.log('Final transcript:', this.finalTranscript);
+        this.userService.addAnswer(this.finalTranscript);
+        
+      };
+
+      this.recognition.start();
     }
 
-    speechSynthesis.speak(utterance);
-  }
+    stop() {
+      if (!this.listeningSubject.value) return;
+      this.recognition.stop();
+      this.listeningSubject.next(false);
+    }
 
-  getAvailableVoices(): SpeechSynthesisVoice[] {
-    return this.voices;
+    getAvailableVoices(): SpeechSynthesisVoice[] {
+      return this.voices;
+    }
   }
-}

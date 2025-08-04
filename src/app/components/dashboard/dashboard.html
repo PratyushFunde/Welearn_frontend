@@ -3,6 +3,7 @@
     <i class="fas fa-bars menu-icon" (click)="toggleSidebar()" *ngIf="!sidebarVisible"></i>
     <i class="fa-solid fa-xmark menu-icon" (click)="toggleSidebar()" *ngIf="sidebarVisible"></i>
     <!-- Sidebar Container -->
+     <!-- <button (click)="onSpeakClick()">Speak</button> -->
     <div class="left bd2" [class.show]="sidebarVisible">
         <app-left-bar />
     </div>

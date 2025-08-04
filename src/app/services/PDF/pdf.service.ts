@@ -5,6 +5,7 @@ import * as pdfjsLib from 'pdfjs-dist';
 import { environment } from '../../../environments/environment';
 import { Profile } from '../../interface/profile.interface';
 import { BehaviorSubject } from 'rxjs';
+import { Utility } from '../utility/utility';
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +13,8 @@ import { BehaviorSubject } from 'rxjs';
 export class Pdf {
 
   private http = inject(HttpClient);
+
+  private utility=inject(Utility);
 
   private isPdfResponseLoadingSubject = new BehaviorSubject<boolean>(false);
   public isPdfLoading$ = this.isPdfResponseLoadingSubject.asObservable();
@@ -31,7 +34,7 @@ export class Pdf {
         next: (res: any) => {
           console.log("Response from AI : ", res);
           try {
-            const parsed: Profile = JSON.parse(res);
+            const parsed: Profile =this.utility.parseResumeToJSON(res)!;
             this.profileSubject.next(parsed)
             console.log('Parsed Profile:', parsed);
             this.isPdfResponseLoadingSubject.next(false);

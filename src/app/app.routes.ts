@@ -28,6 +28,7 @@ export const routes: Routes = [
                     { path: 'analytics', component: Analytics },
                     { path: 'guide', component: InterviewGuide },
                     { path: 'skills', component: Skills },
+                    {path:"interview",component:InterviewScreen},
                     { path: '', redirectTo: 'dashboard', pathMatch: 'full' }
                 ]
             }

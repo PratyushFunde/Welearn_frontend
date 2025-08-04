@@ -1,104 +1,250 @@
-.main {
-    height: 100vh;
-    width: 100vw;
-    background-color: var(--primary-color);
-    display: flex;
-    flex-direction: column;
-}
 
-.header{
-   display: flex;
-//    align-items: flex-end;
-   justify-content: flex-end;
-   padding: 1rem;
-
-   .end-interview-btn{
-    border: none;
-    padding: 0.4rem 1rem;
-    border-radius: 8px;
-    background-color: rgb(246, 100, 100);
-    color: white;
-    cursor: pointer;
-   }
-   .end-interview-btn:hover{
-    background-color: rgb(247, 16, 16);
-   }
-}
-
-.screens {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 1rem;
-    height: 80%;
-    gap: 1rem;
-
-    .screen {
-        width: 80%;
-        height: 80%;
-        padding: 1rem;
-        color: white;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        h4{
-            margin-top: 2rem;
+        .main {
+            height: 100%;
+            width: 100%;
+            background-color: var(--primary-color);
+            display: flex;
+            flex-direction: column;
+            color: var(--text-primary);
+            position: relative;
         }
-    }
 
+        .fullscreen-btn {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            z-index: 10;
+        }
 
-}
+        .fullscreen-btn:hover {
+            background-color: rgba(0, 0, 0, 0.7);
+        }
 
-.footer {
-    flex: 1;
-    display: flex;
-    justify-content: center;
-    margin-bottom: 1rem;
+        .header {
+            display: flex;
+            justify-content: flex-end;
+            padding: 1rem;
+            background-color: rgba(0, 0, 0, 0.2);
+            border-bottom: 1px solid var(--border-color);
+        }
 
-    .start-speaking-btn{
-        border: none;
-        color: white;
-        padding: 1rem 2rem;
-        background-color: rgb(22, 178, 22);
-        height: 50%;
-        text-align: center;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 0.4rem;
-        border-radius: 0.6rem;
-    }
-    .start-speaking-btn:hover{
-        background-color: rgb(10, 110, 10);
-    }
-}
+        .end-interview-btn {
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: var(--border-radius);
+            background-color: #e53935;
+            color: white;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
 
-/* From Uiverse.io by xXJollyHAKERXx */ 
-.spinner {
-  background-image: linear-gradient(rgb(186, 66, 255) 35%,rgb(0, 225, 255));
-  width: 200px;
-  height: 200px;
-  text-align: center;
-  border-radius: 500px;
-  filter: blur(1px);
-  box-shadow: 0px -5px 20px 0px rgb(186, 66, 255), 0px 5px 20px 0px rgb(0, 225, 255);
-}
+        .end-interview-btn:hover {
+            background-color: #c62828;
+            transform: translateY(-1px);
+        }
 
-.spinner1 {
-    background-color: rgb(36, 36, 36);
-    width: 200px;
-    height: 200px;
-    border-radius: 500px;
-    filter: blur(10px);
-}
+        .screens {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            height: 100%;
+            gap: 2rem;
+            flex: 1;
+        }
 
-.spin{
+        .screen-container {
+            width: 45%;
+            height: 80%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
 
-      animation: spinning82341 1.7s linear infinite;
-}
-@keyframes spinning82341 {
-  to {
-    transform: rotate(360deg);
-  }
-}
+        .screen-border {
+            width: 100%;
+            height: 100%;
+            border-radius: var(--border-radius);
+            padding: 0.3rem;
+            background: linear-gradient(135deg, var(--hover-color), #6a11cb);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .screen {
+            width: 100%;
+            height: 100%;
+            background-color: var(--bg-dark);
+            border-radius: calc(var(--border-radius) - 0.2rem);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .video-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: rgba(30, 30, 40, 0.5);
+            position: relative;
+        }
+
+        .screen h4 {
+            position: absolute;
+            bottom: 1rem;
+            left: 1rem;
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 0.5rem 1rem;
+            border-radius: var(--border-radius);
+            font-weight: 500;
+            z-index: 2;
+        }
+
+        .ai .screen-border {
+            background: linear-gradient(135deg, #6a11cb, #2575fc);
+        }
+
+        .candidate .screen-border {
+            background: linear-gradient(135deg, #11998e, #38ef7d);
+        }
+
+        .footer {
+            padding: 1.5rem;
+            display: flex;
+            justify-content: center;
+            background-color: rgba(0, 0, 0, 0.2);
+            border-top: 1px solid var(--border-color);
+            gap: 1rem;
+
+            .next-ques-btn
+            {
+                padding: 1rem;
+                border: none;
+                background-color: transparent;
+                color: white;
+                font-size: large;
+                cursor: pointer;
+            }
+
+        }
+
+        .start-speaking-btn {
+            border: none;
+            color: white;
+            padding: 1rem 3rem;
+            background: linear-gradient(to right, #11998e, #38ef7d);
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.8rem;
+            border-radius: var(--border-radius);
+            font-size: 1.1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .start-speaking-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .start-speaking-btn:active {
+            transform: translateY(0);
+        }
+
+        /* Loading Animation Options */
+        .loading-animation {
+            position: absolute;
+            display: none;
+            z-index: 1;
+        }
+
+        .spinning .loading-animation {
+            display: block;
+        }
+
+        /* Option 1: Gentle Pulse (recommended) */
+        .pulse {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background-color: rgba(23, 205, 221, 0.2);
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(0.8);
+                opacity: 0.5;
+            }
+            50% {
+                transform: scale(1.1);
+                opacity: 0.9;
+            }
+        }
+
+        /* Option 2: Sound Wave */
+        .wave {
+            width: 100px;
+            height: 80px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .wave div {
+            width: 12px;
+            height: 40px;
+            background: linear-gradient(to top, var(--hover-color), #6a11cb);
+            animation: wave 1.2s cubic-bezier(0, 0.5, 0.5, 1) infinite;
+        }
+
+        .wave div:nth-child(1) { animation-delay: -0.24s; }
+        .wave div:nth-child(2) { animation-delay: -0.12s; }
+        .wave div:nth-child(3) { animation-delay: 0s; }
+
+        @keyframes wave {
+            0% {
+                transform: scaleY(0.4);
+            }
+            50% {
+                transform: scaleY(1);
+            }
+            100% {
+                transform: scaleY(0.4);
+            }
+        }
+
+        /* Option 3: Scanning Line */
+        .scanning {
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, transparent, var(--hover-color), transparent);
+            position: absolute;
+            top: 50%;
+            animation: scanning 2.5s linear infinite;
+        }
+
+        @keyframes scanning {
+            0% {
+                transform: translateX(-100%) translateY(-50%);
+            }
+            100% {
+                transform: translateX(100%) translateY(-50%);
+            }
+        }

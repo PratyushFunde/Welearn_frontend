@@ -15,12 +15,15 @@ export class Dashboard {
 
   sidebarVisible: boolean = false;
 
+  private speakService=inject(Speak);
 
   toggleSidebar() {
     this.sidebarVisible = !this.sidebarVisible;
   }
 
-
+  onSpeakClick=()=>{
+    this.speakService.speak('Tell me about a time when you faced a challenge while learning or building something using Angular. How did you handle it?')
+  }
  
 
 

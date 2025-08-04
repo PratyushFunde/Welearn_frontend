@@ -1,9 +1,13 @@
 import { environment } from './../../../environments/environment';
 import { inject, Injectable } from '@angular/core';
-import { Profile } from '../../interface/profile.interface';
+import { createQuestionResponse, Profile } from '../../interface/profile.interface';
 import { Pdf } from '../PDF/pdf.service';
 import { interviewdata } from '../../models/interviewData';
 import { Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
+import { Utility } from '../utility/utility';
+import { Speak } from '../speak/speak';
+import { Observable } from 'rxjs';
 
 
 @Injectable({
@@ -11,13 +15,18 @@ import { Router } from '@angular/router';
 })
 export class User {
 
-  private router=inject(Router);
+  private http = inject(HttpClient);
+
+  private router = inject(Router);
 
   profile: Profile | null = null;
 
   private pdfService = inject(Pdf);
+  private utility = inject(Utility);
 
-  data:interviewdata[]=[];
+  level: string = ''
+
+  data: interviewdata[] = [];
 
   constructor() {
     // Move subscription here directly, not in ngonInit
@@ -34,37 +43,47 @@ export class User {
 
     const userData = { skills: this.profile?.skills, experience: this.profile?.experiences, level: level, time: time }
 
-    this.createQuestion('',level);
-
-
+    return this.http.post<createQuestionResponse>(`${environment.apiUrl}/user/createQuestion`, { data: userData });
 
   }
 
 
-  createQuestion= async (answer:string|'',level:string)=>
-  {
-    const payload={ skills: this.profile?.skills, experience: this.profile?.experiences, level: level }
+  createQuestion = () => {
+    const latestEntry = this.data.length > 0 ? this.data[this.data.length - 1] : null;
+    const latestAnswer = latestEntry?.answer || " ";
+    const payload = { skills: this.profile?.skills, experience: this.profile?.experiences, level: this.level, answer: latestAnswer }
+    return this.http.post(`${environment.apiUrl}/user/createQuestion`, { data: payload })
 
-    const response=await fetch(`${environment.apiUrl}/user/createQuestion`,
-      {
-        method:'POST',
-        headers:{
-          'Content-Type':'application/json'
-        },
-        body:JSON.stringify({ data: payload,answer:answer })
-      }
-    )
+  }
 
-    if(!response.ok)
-    {
-      console.log("Some error in creating question !")
+
+  addQuestion = (question: string) => {
+    this.data.push({ question })
+    console.log(this.data);
+  }
+
+  addAnswer(answerText: string) {
+    const lastIndex = this.data.length - 1;
+    if (lastIndex >= 0) {
+      this.data[lastIndex].answer = answerText;
     }
+    console.log(this.data)
 
-    const data=await response.json()
-    console.log('Success:', data);
   }
+
 
   endInterview = () => {
     alert('Interview ended !')
   }
+
+  // Audio format transcribe test only 
+
+  sendAudioToBackend(audioBlob: Blob): Observable<any> {
+    const formData = new FormData();
+    formData.append('file', audioBlob, 'recording.wav');
+
+    // Adjust the endpoint as needed
+    return this.http.post(`${environment.apiUrl}/audio/transcribeAudio`, formData);
+  }
+
 }

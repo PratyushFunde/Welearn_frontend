@@ -1,11 +1,17 @@
-import { NgIf } from '@angular/common';
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { NgClass, NgIf } from '@angular/common';
+import { Component, ElementRef, inject, ViewChild } from '@angular/core';
+import { Speak } from '../../services/speak/speak';
+import { User } from '../../services/user/user';
+import { Utility } from '../../services/utility/utility';
+import { createQuestionResponse } from '../../interface/profile.interface';
+import { AudioRecordingService } from '../../services/audioFile/audio';
+
 
 
 @Component({
   selector: 'app-interview-screen',
   standalone: true,
-  imports: [NgIf],
+  imports: [NgIf,NgClass],
   templateUrl: './interview-screen.html',
   styleUrl: './interview-screen.scss'
 })
@@ -13,10 +19,29 @@ export class InterviewScreen {
 
   @ViewChild('main', { static: true }) mainContainer!: ElementRef;
 
-  isFullscreen = false;
+  transcript = '';
 
+  private speakService = inject(Speak);
+  private userService = inject(User);
+  private utilityService = inject(Utility);
+
+  isFullscreen = false;
+  isListening = false;
+  isAISpeaking:boolean=false;
+
+  constructor() {
+    this.speakService.isListening$.subscribe(state => {
+      this.isListening = state;
+    });
+
+    
+  }
+  
   ngOnInit() {
     this.isFullscreen = !!document.fullscreenElement;
+    this.speakService.isSpeaking$.subscribe((value)=>{
+      this.isAISpeaking=value;
+    })
 
     // ❗ If you try this, it will still be blocked by browser if not user-initiated
     // this.enterFullscreen(); // Don't do this unless triggered by user gesture
@@ -40,7 +65,9 @@ export class InterviewScreen {
     }
   }
 
-    endInterview() {
+
+
+  endInterview() {
     if (document.fullscreenElement) {
       document.exitFullscreen()
         .then(() => this.isFullscreen = false)
@@ -49,6 +76,79 @@ export class InterviewScreen {
 
     // TODO: Add any other logic like navigating away, showing a confirmation, etc.
     console.log('Interview ended!');
+  }
+
+  toggleListening() {
+    if (this.isListening) {
+      this.stopListening();
+      this.stop()
+    } else {
+      this.startListening();
+      this.start();
+    }
+  }
+
+  startListening() {
+    this.speakService.start(text => {
+      this.transcript = text;
+    });
+  }
+
+  stopListening() {
+    this.speakService.stop();
+    // console.log(this.transcript)
+  }
+
+  createNextQuestion = () => {
+    this.userService.createQuestion().subscribe({
+      next: (res) => {
+        console.log("Created next question : ", res)
+        const parsedQuestion = this.utilityService.parseQuestionToJSON(String(res)) as createQuestionResponse
+        console.log(parsedQuestion);
+
+        if (parsedQuestion) {
+          this.userService.addQuestion(parsedQuestion.question);
+          this.speakService.speak(parsedQuestion.question);
+        }
+        else {
+          alert("Some error occured !")
+        }
+      },
+      error: (err) => { console.log("Some error in creating question : ", err) }
+    })
+  }
+
+
+  // Audio Service code Test Only
+
+  private audioRecordingService = inject(AudioRecordingService)
+
+  start() {
+    this.audioRecordingService.startRecording();
+    this.speakService.start(text => {
+      this.transcript = text;
+    });
+  }
+
+  stop() {
+    this.speakService.stop();
+    this.audioRecordingService.stopRecording()
+      .then((audioBlob: Blob) => {
+        // Send the audio to backend
+        this.userService.sendAudioToBackend(audioBlob).subscribe({
+          next: (response) => {
+            console.log('Audio sent successfully', response);
+            this.userService.addAnswer(response);
+            this.createNextQuestion();
+          },
+          error: (error) => {
+            console.error('Error sending audio', error);
+          }
+        });
+      })
+      .catch((error) => {
+        console.error('Error recording audio', error);
+      });
   }
 
 }
