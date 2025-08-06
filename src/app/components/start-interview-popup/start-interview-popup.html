@@ -1,0 +1,32 @@
+<div class="selection-card">
+    <h2 class="card-title">Select Your Preferences</h2>
+
+    <form id="preferenceForm" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+            <label for="experience" class="form-label">Experience Level</label>
+            <select id="experience" name="experience" class="form-select"
+                required
+                [(ngModel)]="level">
+                <option value disabled selected>Select your experience
+                    level</option>
+                <option value="fresher">Fresher</option>
+                <option value="intermediate">Intermediate</option>
+                <option value="senior">Senior</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="time" class="form-label">Available Time</label>
+            <select id="time" name="time" class="form-select" required
+                [(ngModel)]="time">
+                <option value disabled selected>Select available time</option>
+                <option value="15">15 minutes</option>
+                <option value="25">25 minutes</option>
+                <option value="45">45 minutes</option>
+                <option value="60">1 hour</option>
+            </select>
+        </div>
+
+        <button type="submit" class="submit-btn">Start Interview</button>
+    </form>
+</div>

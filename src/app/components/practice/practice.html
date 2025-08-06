@@ -1,6 +1,12 @@
 <div class="main">
 
   <div class="startPreparation bd1">
-    <app-start-preparation />
+    <app-start-preparation (message)="onStartInterviewClick($event)" />
+  </div>
+  <div class="skills">
+    <app-interview-skills />
+  </div>
+  <div class="start-interview" *ngIf="showPopup">
+    <app-start-interview-popup />
   </div>
 </div>

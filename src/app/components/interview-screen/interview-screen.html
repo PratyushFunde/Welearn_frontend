@@ -1,0 +1,53 @@
+<div class="main" #main>
+    <button *ngIf="!isFullscreen" class="fullscreen-btn" (click)="enterFullscreen()">Enter Fullscreen</button>
+    <div class="header">
+        <button class="end-interview-btn" (click)="endInterview()">End Interview</button>
+    </div>
+    <div class="screens">
+        <div class="screen-container ai">
+            <div class="screen-border">
+                <div [ngClass]="{'screen':true,'spinning':isAISpeaking}"> <!-- Add/remove 'spinning' class to toggle animation -->
+                    <div class="video-placeholder">
+                        <!-- Choose ONE of these loading animations -->
+                        <div class="loading-animation pulse"></div>
+                        <!-- <div class="loading-animation wave"><div></div><div></div><div></div></div> -->
+                        <!-- <div class="loading-animation scanning"></div> -->
+                        <h4>AI Interviewer</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="screen-container candidate">
+            <div class="screen-border">
+                <div class="screen"> <!-- Add/remove 'spinning' class to toggle animation -->
+                    <div class="video-placeholder">
+                        <!-- Choose ONE of these loading animations -->
+                        <div class="loading-animation pulse"></div>
+                        <!-- <div class="loading-animation wave"><div></div><div></div><div></div></div> -->
+                        <!-- <div class="loading-animation scanning"></div> -->
+                        <h4>Candidate</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer">
+        @if(!isAISpeaking)
+        {
+
+            <button class="start-speaking-btn" (click)="toggleListening()">
+                @if(isListening){
+                    
+                    <i class="fa-solid fa-microphone-lines"></i>
+                }
+                @if(!isListening)
+                {<i class="fa-solid fa-microphone-slash"></i>}
+                Start Speaking
+            </button>
+            <button class="next-ques-btn" (click)="createNextQuestion()">
+                Next
+                <i class="fa-solid fa-caret-right"></i>
+            </button>
+        }
+    </div>
+</div>

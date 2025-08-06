@@ -9,6 +9,8 @@ import { CodingChallenges } from './components/coding-challenges/coding-challeng
 import { Analytics } from './components/analytics/analytics';
 import { InterviewGuide } from './components/interview-guide/interview-guide';
 import { Skills } from './components/skills/skills';
+import { InterviewScreen } from './components/interview-screen/interview-screen';
+import { Comingsoon } from './components/comingsoon/comingsoon';
 
 export const routes: Routes = [
     { path: '', component: Main },
@@ -23,15 +25,17 @@ export const routes: Routes = [
                 component: Hero,
                 children: [
                     { path: 'practice', component: Practice },
-                    { path: 'challenge', component: CodingChallenges },
-                    { path: 'analytics', component: Analytics },
-                    { path: 'guide', component: InterviewGuide },
-                    { path: 'skills', component: Skills },
+                    { path: 'challenge', component: Comingsoon },
+                    { path: 'analytics', component: Comingsoon },
+                    { path: 'guide', component: Comingsoon },
+                    { path: 'skills', component: Comingsoon },
+                    {path:"interview",component:InterviewScreen},
                     { path: '', redirectTo: 'dashboard', pathMatch: 'full' }
                 ]
             }
         ]
-    }
+    },
+    { path: 'interview', component: InterviewScreen }
 ];
 
 

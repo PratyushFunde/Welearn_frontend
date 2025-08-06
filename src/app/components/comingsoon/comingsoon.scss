@@ -1,0 +1,108 @@
+.coming-soon-container {
+  height: 100%;
+  width: 100%;
+  background-color: #121212;
+  color: #ffffff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  animation: fadeIn 1.5s ease-in-out;
+}
+
+/* Fade in animation for container */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.content {
+  text-align: center;
+  animation: fadeInContent 1s ease-out;
+}
+
+@keyframes fadeInContent {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.content h1 {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  color: #00ffd5;
+  animation: pulse 2s infinite;
+}
+
+/* Pulse animation for heading */
+@keyframes pulse {
+  0% {
+    text-shadow: 0 0 5px #00ffd5;
+  }
+  50% {
+    text-shadow: 0 0 20px #00ffd5, 0 0 30px #00ffd5;
+  }
+  100% {
+    text-shadow: 0 0 5px #00ffd5;
+  }
+}
+
+.content p {
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+  color: #bbbbbb;
+}
+
+.countdown {
+  display: flex;
+  gap: 2rem;
+  justify-content: center;
+  animation: slideIn 1.5s ease-out;
+}
+
+/* Slide-in animation for countdown blocks */
+@keyframes slideIn {
+  from {
+    transform: translateY(30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.countdown div {
+  background-color: #1f1f1f;
+  padding: 1rem 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 0 10px #00ffd5;
+  transition: transform 0.3s ease;
+}
+
+.countdown div:hover {
+  transform: scale(1.05);
+}
+
+.number {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #00ffd5;
+  display: block;
+}
+
+.label {
+  font-size: 0.9rem;
+  color: #cccccc;
+}

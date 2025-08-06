@@ -94,6 +94,11 @@ button {
   stroke-linejoin: round;
 }
 
+.start-interview-btn{
+  border: none;
+  background-color: var(--text-primary);
+}
+
 /* Responsive */
 @media (max-width: 400px) {
   main h1 {
@@ -110,3 +115,4 @@ button {
     padding: 0.5rem 1.25rem;
   }
 }
+

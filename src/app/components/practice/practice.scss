@@ -10,3 +10,19 @@
     background-repeat: no-repeat;
 }
 
+.start-interview {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 999;
+    /* high enough to sit on top */
+    // background: var(--primary-color);
+    /* optional: background color for visibility */
+    padding: 20px;
+    /* optional */
+    border-radius: 8px;
+    /* optional styling */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    /* optional */
+}
