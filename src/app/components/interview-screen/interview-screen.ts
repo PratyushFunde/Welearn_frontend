@@ -11,7 +11,7 @@ import { AudioRecordingService } from '../../services/audioFile/audio';
 @Component({
   selector: 'app-interview-screen',
   standalone: true,
-  imports: [NgIf,NgClass],
+  imports: [NgIf, NgClass],
   templateUrl: './interview-screen.html',
   styleUrl: './interview-screen.scss'
 })
@@ -27,20 +27,25 @@ export class InterviewScreen {
 
   isFullscreen = false;
   isListening = false;
-  isAISpeaking:boolean=false;
+  isAISpeaking: boolean = false;
+  isInterviewDone: boolean = false;
 
   constructor() {
     this.speakService.isListening$.subscribe(state => {
       this.isListening = state;
     });
 
-    
+
   }
-  
+
   ngOnInit() {
     this.isFullscreen = !!document.fullscreenElement;
-    this.speakService.isSpeaking$.subscribe((value)=>{
-      this.isAISpeaking=value;
+    this.speakService.isSpeaking$.subscribe((value) => {
+      this.isAISpeaking = value;
+    })
+
+    this.userService.isInterviewDone$.subscribe((value) => {
+      this.isInterviewDone = value;
     })
 
     // ❗ If you try this, it will still be blocked by browser if not user-initiated
@@ -68,6 +73,8 @@ export class InterviewScreen {
 
 
   endInterview() {
+
+
     if (document.fullscreenElement) {
       document.exitFullscreen()
         .then(() => this.isFullscreen = false)
@@ -76,6 +83,8 @@ export class InterviewScreen {
 
     // TODO: Add any other logic like navigating away, showing a confirmation, etc.
     console.log('Interview ended!');
+
+    this.userService.endInterview();
   }
 
   toggleListening() {
@@ -100,22 +109,33 @@ export class InterviewScreen {
   }
 
   createNextQuestion = () => {
-    this.userService.createQuestion().subscribe({
-      next: (res) => {
-        console.log("Created next question : ", res)
-        const parsedQuestion = this.utilityService.parseQuestionToJSON(String(res)) as createQuestionResponse
-        console.log(parsedQuestion);
 
-        if (parsedQuestion) {
-          this.userService.addQuestion(parsedQuestion.question);
-          this.speakService.speak(parsedQuestion.question);
-        }
-        else {
-          alert("Some error occured !")
-        }
-      },
-      error: (err) => { console.log("Some error in creating question : ", err) }
-    })
+    // Check if interview is done
+    if(this.userService.data.length>=2){
+      this.isInterviewDone = true;
+      return alert("Interview is done ! Please end the interview.")
+    }
+    if (this.isInterviewDone) {
+      return alert("Please end the interview !")
+    }
+    else {
+      this.userService.createQuestion().subscribe({
+        next: (res) => {
+          console.log("Created next question : ", res)
+          const parsedQuestion = this.utilityService.parseQuestionToJSON(String(res)) as createQuestionResponse
+          console.log(parsedQuestion);
+
+          if (parsedQuestion) {
+            this.userService.addQuestion(parsedQuestion.question);
+            this.speakService.speak(parsedQuestion.question);
+          }
+          else {
+            alert("Some error occured !")
+          }
+        },
+        error: (err) => { console.log("Some error in creating question : ", err) }
+      })
+    }
   }
 
 

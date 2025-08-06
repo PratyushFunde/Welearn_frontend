@@ -32,18 +32,22 @@
         </div>
     </div>
     <div class="footer">
-        <button class="start-speaking-btn" (click)="toggleListening()">
-            @if(isListening){
+        @if(!isAISpeaking)
+        {
 
-            <i class="fa-solid fa-microphone-lines"></i>
-            }
-            @if(!isListening)
-            {<i class="fa-solid fa-microphone-slash"></i>}
-            Start Speaking
-        </button>
-        <button class="next-ques-btn" (click)="createNextQuestion()">
-            Next
-            <i class="fa-solid fa-caret-right"></i>
-        </button>
+            <button class="start-speaking-btn" (click)="toggleListening()">
+                @if(isListening){
+                    
+                    <i class="fa-solid fa-microphone-lines"></i>
+                }
+                @if(!isListening)
+                {<i class="fa-solid fa-microphone-slash"></i>}
+                Start Speaking
+            </button>
+            <button class="next-ques-btn" (click)="createNextQuestion()">
+                Next
+                <i class="fa-solid fa-caret-right"></i>
+            </button>
+        }
     </div>
 </div>
