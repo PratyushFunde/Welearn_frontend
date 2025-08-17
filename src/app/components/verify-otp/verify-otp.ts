@@ -44,7 +44,7 @@ export class VerifyOtp implements OnInit, OnDestroy {
         next: (res) => {
           console.log("Verified Successfully")
           this.loginSignupService.setVerifyLoading(false);
-          this.successMessage = "OTP is verified Successfully , now you can Login ! "
+          this.successMessage = "OTP is verified Successfully , now you can! "
         },
         error: (err) => {
           console.log("Error occured in verification", err)
@@ -64,3 +64,6 @@ export class VerifyOtp implements OnInit, OnDestroy {
 
 
 }
+
+
+// AI Avatar 
