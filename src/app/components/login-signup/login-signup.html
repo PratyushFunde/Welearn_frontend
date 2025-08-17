@@ -8,7 +8,7 @@
             <h4>{{!isLogin ? "Sign in to We learn" : "Login to We learn"}}</h4>
             <p class="title"> {{!isLogin ? "SIGN UP" :"Log In"}}</p>
             @if(!showOTP){<form (ngSubmit)="onFormSubmit()">
-                @if(    !isLogin)
+                @if(!isLogin)
                 {
 
                     <div class="form_group">

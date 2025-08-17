@@ -90,12 +90,14 @@ export class User {
     // alert('Interview ended !');
     console.log(this.data);
     let userId='';
+    let userEmail='';
     const userStr = sessionStorage.getItem("user");
     if (userStr) {
       try {
         console.log(JSON.parse(userStr));
         const user = JSON.parse(userStr);
         userId = user?.id || '';
+        userEmail=user?.email || '';
 
       }
       catch (e) {
@@ -105,7 +107,8 @@ export class User {
 
     const payload = {
       userId: userId,
-      questions: this.data
+      questions: this.data,
+      userEmail:userEmail
     }
     console.log(payload);
 
