@@ -1,5 +1,5 @@
 // src/environments/environment.prod.ts
 export const environment = {
   production: true,
-  apiUrl: 'https://welearn-backend-1ln1.onrender.com/api',
+  apiUrl: '8pfzv2uti4.ap-south-1.awsapprunner.com/api',
 };

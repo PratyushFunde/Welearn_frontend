@@ -1,5 +1,5 @@
 // src/environments/environment.ts
 export const environment = {
   production: false,
-  apiUrl: 'http://localhost:8000/api', // Your Node backend
+  apiUrl: '8pfzv2uti4.ap-south-1.awsapprunner.com/api', // Your Node backend
 };  
